@@ -1,0 +1,19 @@
+from flask import Flask, render_template
+import os
+
+app = Flask(__name__)
+
+@app.route("/")
+def home():
+    if not os.path.exists("counter.txt"):
+        with open("counter.txt", "w") as f:
+            f.write("0")
+    with open("counter.txt", "r") as f:
+        count = int(f.read().strip())
+    with open("counter.txt", "w") as f:
+        f.write(str(count + 1))
+    return render_template("home.html", count=count + 1)
+
+if __name__ == "__main__":
+    app.run(debug=True)
+
